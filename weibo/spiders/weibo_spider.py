@@ -167,7 +167,6 @@ class WeiboSpider(Spider):
         yield user_item
 
     def parse_tweet(self, response):
-        self.log('crawl URL {}'.format(response.url), level=logging.INFO)
         response_json = json.loads(response.text)
         if 'is_first' in response.meta:
             total = response_json['data']['cardlistInfo']['total']
