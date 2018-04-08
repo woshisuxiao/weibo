@@ -2,7 +2,9 @@
 
 抓取微博移动端站点:https://m.weibo.cn
 
-如果是抓取wap站点:https://weibo.cn移步之前写的[微博爬虫项目](https://github.com/SimpleBrightMan/WeiboSpider/).
+如果是抓取wap站点:https://weibo.cn
+
+移步之前写的[微博爬虫项目](https://github.com/SimpleBrightMan/WeiboSpider/).
 
 推荐采用移动端站点，数据都是API接口形式，方便解析，爬取效率更高，单IP单账号，轻松日抓取百万级数据.
 
