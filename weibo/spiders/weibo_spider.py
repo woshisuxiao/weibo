@@ -28,8 +28,6 @@ class WeiboSpider(Spider):
     # 微博列表
     tweet_url = 'https://m.weibo.cn/api/container/getIndex?uid={user_id}&containerid={containerid}&page={page}'
 
-    # user_id = "5303798085"
-    # user_id = "5312823289"
     user_id = "1699432410"
 
     def start_requests(self):
