@@ -21,12 +21,12 @@ DEFAULT_REQUEST_HEADERS = {
 }
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 64
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.1
+DOWNLOAD_DELAY = 0.05
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -51,9 +51,17 @@ DOWNLOAD_DELAY = 0.1
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'weibo.middlewares.MyCustomDownloaderMiddleware': 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+    # 'weibo.middlewares.MyCustomDownloaderMiddleware': 543,
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
+    'scrapy_proxies.RandomProxy': 100,
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+}
+
+PROXY_LIST = './weibo/proxy_list.txt'
+PROXY_MODE = 0
+RETRY_TIMES = 3
+RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
