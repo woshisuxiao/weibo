@@ -45,11 +45,19 @@ class TweetItem(Item):
     repost_num = Field()  # 转载数
     is_repost = Field()  # 是否是转载微博
     repost_source = Field()  # 如果是转载微博，原始微博的URL
+    source_create = Field()
+    source_content = Field()
+    source_repost_num = Field()
+    source_comment_num = Field()
+    source_like_num = Field()
+    source_user_id = Field()
+    source_user_description = Field()
 
 
 class RelationshipItem(Item):
     """
     用户关系，只保留与关注的关系
     """
+    _id = Field()  # id
     fan_id = Field()  # 粉丝
     followed_id = Field()  # 被关注者的ID

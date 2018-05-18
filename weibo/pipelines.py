@@ -23,10 +23,16 @@ class MongoDBPipeline(object):
         """
         try:
             if isinstance(item, RelationshipItem):
-                self.Relationship.insert(dict(item))
+                self.insert(self.Relationship, dict(item))
             elif isinstance(item, UserItem):
-                self.User.insert(dict(item))
+                self.insert(self.User, dict(item))
             elif isinstance(item, TweetItem):
-                self.Tweet.insert(dict(item))
+                self.insert(self.Tweet, dict(item))
         except:
             pass
+
+    def insert(self, collection, item):
+        try:
+            collection.insert(item)
+        except Exception as e :
+            print(e)
