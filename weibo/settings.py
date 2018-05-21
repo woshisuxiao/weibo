@@ -97,4 +97,4 @@ ITEM_PIPELINES = {
 DUPEFILTER_CLASS = 'scrapy.dupefilters.BaseDupeFilter'
 
 LOG_LEVEL = 'DEBUG'
-LOG_FILE = 'weibo.log'
+LOG_FILE = 'weibo_more.log'

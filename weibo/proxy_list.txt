@@ -1,1 +1,4 @@
-http://domain:port
+http://huyong:huyong199596@159.89.53.122:8732
+http://spider:spiderspider@139.129.19.240:8732
+http://spider:spiderspider@47.104.100.149:8732
+http://spider:spiderspider@120.25.220.154:8732

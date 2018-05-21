@@ -27,12 +27,13 @@ class WeiboSpider(Spider):
     tweet_url = 'https://m.weibo.cn/api/container/getIndex?uid={user_id}&containerid={containerid}&page={page}'
 
     def start_requests(self):
-        user_id = "1699432410"
-        yield Request(
-            url=self.user_info_url.format(user_id=user_id),
-            callback=self.parse_user_info,
-            meta={'user_id': user_id}
-        )
+        user_ids = ["1365309020", "1187354232", "6386642173", "3105898703"]
+        for user_id in user_ids:
+            yield Request(
+                url=self.user_info_url.format(user_id=user_id),
+                callback=self.parse_user_info,
+                meta={'user_id': user_id}
+            )
 
     def parse_follows(self, response):
         """获取关注列表"""
@@ -134,33 +135,38 @@ class WeiboSpider(Spider):
             containerid = tabs[0]['containerid']
         else:
             containerid = tabs['0']['containerid']
-        # if 50 < int(user_item['fans_num']):
-        #     if int(user_item['tweets_num']) > 30:
-        #         if int(user_item['follows_num']) < 100:
-        yield Request(
-            url='https://m.weibo.cn/api/container/getIndex?containerid={}_-_INFO'.format(containerid),
-            callback=self.parse_further_user_info,
-            meta={'item': user_item, 'user_id': user_id}
-        )
+        if 50 < int(user_item['fans_num']):
+            if int(user_item['tweets_num']) > 30:
+                yield Request(
+                    url='https://m.weibo.cn/api/container/getIndex?containerid={}_-_INFO'.format(containerid),
+                    callback=self.parse_further_user_info,
+                    meta={'item': user_item, 'user_id': user_id}
+                )
 
-        tweet_tab = response_data['data']['tabsInfo']['tabs']
-        if type(tweet_tab) is list:
-            tweet_tab = tweet_tab[1]
-        else:
-            tweet_tab = tweet_tab['1']
-        if tweet_tab['title'] == '微博':
-            containerid = tweet_tab['containerid']
-            headers = DEFAULT_REQUEST_HEADERS.copy()
-            headers['Referer'] = "https://m.weibo.cn/u/{}".format(user_id)
-            yield Request(
-                url=self.tweet_url.format(user_id=user_id, containerid=containerid, page=1),
-                headers=headers,
-                callback=self.parse_tweet,
-                meta={'is_first': True, 'user_id': user_id}
-            )
+                tweet_tab = response_data['data']['tabsInfo']['tabs']
+                if type(tweet_tab) is list:
+                    tweet_tab = tweet_tab[1]
+                else:
+                    tweet_tab = tweet_tab['1']
+                if tweet_tab['title'] == '微博':
+                    containerid = tweet_tab['containerid']
+                    headers = DEFAULT_REQUEST_HEADERS.copy()
+                    headers['Referer'] = "https://m.weibo.cn/u/{}".format(user_id)
+                    yield Request(
+                        url=self.tweet_url.format(user_id=user_id, containerid=containerid, page=1),
+                        headers=headers,
+                        callback=self.parse_tweet,
+                        meta={'is_first': True, 'user_id': user_id}
+                    )
 
         yield Request(
             url=self.follows_url.format(user_id=user_id, page=1),
+            callback=self.parse_follows,
+            meta={'user_id': user_id}
+        )
+
+        yield Request(
+            url=self.fans_url.format(user_id=user_id, since_id=1),
             callback=self.parse_follows,
             meta={'user_id': user_id}
         )

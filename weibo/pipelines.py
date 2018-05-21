@@ -12,7 +12,7 @@ from weibo.items import RelationshipItem, UserItem, TweetItem
 class MongoDBPipeline(object):
     def __init__(self):
         client = pymongo.MongoClient("localhost", 27017)
-        db = client['Weibo']
+        db = client['Weibo_more']
         self.User = db['User']
         self.Tweet = db['Tweet']
         self.Relationship = db['Relationship']
@@ -34,5 +34,5 @@ class MongoDBPipeline(object):
     def insert(self, collection, item):
         try:
             collection.insert(item)
-        except Exception as e :
+        except Exception as e:
             print(e)
